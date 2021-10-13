@@ -1,7 +1,6 @@
 from random import *
 from preguntas import algebra, geometria, estadistca
 import matplotlib.pyplot as plt
-import numpy as np
 
 global areas
 global puntos
