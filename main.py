@@ -1,14 +1,16 @@
 from random import *
 from preguntas import algebra, geometria, estadistca
 import matplotlib.pyplot as plt
+# Importo librerías y el banco de preguntas 
 
 global areas
 global puntos
-
+# Declaro dos variables que usaré más adelante para guardar los puntos
 
 areas = {'Álgebra':0, 'Geometría':0, 'Estadística':0}
+# Declaro un diccionario donde guardaré el puntaje más nuevo de cada área 
 
-def menu():
+def menu(): # Función menú, donde el usuario podrá escoger el área de estudio o la consulta de calificaciones
 
     print("Práctica Examen Pisa")
     print("1. Practicar Álgebra")
@@ -32,6 +34,8 @@ def menu():
         graficar()
 
     elif opcion == '5':
+        # A parte de cerrar el programa, lo que se hace es guardar en un archivo de texto, 
+        # las calificaciones actuales.
 
         areasLlaves = areas.keys()
         areasValores = [str(areas[i]) for i in areasLlaves]
@@ -45,8 +49,11 @@ def menu():
 
     
 
-def examenPrincipal(area):
+def examenPrincipal(area): 
+    # En esta función, lo que se hace es que se le da un parámetro, que es el banco de preguntas correspondiente,
+    # y el programa mezcla de manera aleatoria preguntas y respuestas y actualiza la calificación en el diccionario
 
+    # Reseteo la calificación de la cual se está haciendo el examen
     if area == estadistca:
         areas['Estadística'] = 0
 
@@ -57,32 +64,33 @@ def examenPrincipal(area):
         areas['Geometría'] = 0
 
     puntos = []
-    selecPregun = sample(area, 4)
+    selecPregun = sample(area, 4) # Obtengo cuatro preguntas random del banco
 
-    for i in range(4):
-        respsRan = sample(selecPregun[i][1:],4)
+    for i in range(4): # Itero para 
+        respsRan = sample(selecPregun[i][1:],4) # Hago random el orden de las respuestas 
 
-        print(f'{i+1}) {selecPregun[i][0]}')
+        print(f'{i+1}) {selecPregun[i][0]}') # Muestro la pregunta y la numero
         
-        for j in range(4):
+        for j in range(4): # En este ciclo, muestro las preguntas con las letras correspondientes
             alph = 'abcd'
             print(f'{alph[j]}) {respsRan[j]}')
 
         
 
-        while True:
+        while True: # Simulación de un Do-While para pedir una respuesta válida
 
-            resp = input('Su respuesta es: ').lower()
+            resp = input('Su respuesta es: ').lower() # Obtención de la respuesta del usuario
             
-            try:
+            try: # Añadí un try porque si intentaba buscar una respuesta que no estuviera en abcd regresaba error
 
-                if resp == '':
+                if resp == '': # Correción de un error en el que si el usuario pulsaba enter, tomaba la respuesta 1
                     pass
                 
                 
-                elif respsRan[alph.index(resp)] == selecPregun[i][1]:
+                elif respsRan[alph.index(resp)] == selecPregun[i][1]: # Hago revisión de la respuesta
                     puntos.append(f'Pregunta {i+1}: Correcta')
                     
+                    # Si está correcta, añado un punto dependiendo del área
                     if area == estadistca:
                         areas['Estadística'] = areas['Estadística'] + 1
 
@@ -92,38 +100,40 @@ def examenPrincipal(area):
                     else:
                         areas['Geometría'] = areas['Geometría'] + 1
 
-
+                    # Si no, no añado nada a los puntos y añado una sentencia para informar al usuario que está mal
                 else:
                     puntos.append(f'Pregunta {i+1}: Incorrecta')
 
             except:
                 pass
 
-            if resp in 'abcd' and resp != '':
+            if resp in 'abcd' and resp != '': # Aquí simulo la condición del Do-While
                 print()
                 break
             else:
                 print('Respuesta no válida')
 
-    print('\n'.join(puntos))
+    print('\n'.join(puntos)) # Le muestro al usuario cuáles respuestas tuvo bien y cuáles mal
 
     menu()
 
 def graficar():
+
+    # Esta función se encarga tanto de graficar los datos almacenados en el archivo de texto, como los actuales.
     
     f = open('register.txt', 'r')
 
     print(areas)
 
-    valoresAnteriores = f.read().split(' ')
+    valoresAnteriores = f.read().split(' ') # Obtención de los datos apartir del archivo de texto
     valoresAnteriores = [int(i) for i in valoresAnteriores]
 
     f.close()
 
     areasLlaves = areas.keys()
-    areasValores = [areas[i] for i in areasLlaves]
+    areasValores = [areas[i] for i in areasLlaves] # Obtención de datos actuales
 
-    fig, (ax1, ax2) = plt.subplots(1, 2)
+    fig, (ax1, ax2) = plt.subplots(1, 2) # Formato y representación de la gráficas
     fig.suptitle('Calificación por fecha')
     fig.set_size_inches(13, 5)
     ax1.bar(areasLlaves,valoresAnteriores)
@@ -136,4 +146,4 @@ def graficar():
 
     menu()
 
-menu()
+menu() # Correr el programa
