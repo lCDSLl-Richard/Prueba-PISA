@@ -1,7 +1,6 @@
 from random import *
 from preguntas import algebra, geometria, estadistca
 import matplotlib.pyplot as plt
-import io
 # Importo librerías y el banco de preguntas 
 
 global areas
@@ -48,7 +47,7 @@ def menu(): # Función menú, donde el usuario podrá escoger el área de estudi
 
         #Crear el archivo de texto con las preguntas incorrectas
 
-        f = io.open('Preguntas Incorrectas.txt', mode = 'w', encoding = 'utf-8')
+        f = open('Preguntas Incorrectas.txt', mode = 'w', encoding = 'utf-8')
         f.write('\n\n'.join(pregIncorrecta))
 
     else:
