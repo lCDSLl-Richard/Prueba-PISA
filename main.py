@@ -1,13 +1,16 @@
 from random import *
 from preguntas import algebra, geometria, estadistca
 import matplotlib.pyplot as plt
+import io
 # Importo librerías y el banco de preguntas 
 
 global areas
 global puntos
-# Declaro dos variables que usaré más adelante para guardar los puntos
+global pregIncorrecta
+# Declaro variables que usaré más adelante para guardar los puntos
 
 areas = {'Álgebra':0, 'Geometría':0, 'Estadística':0}
+pregIncorrecta = []
 # Declaro un diccionario donde guardaré el puntaje más nuevo de cada área 
 
 def menu(): # Función menú, donde el usuario podrá escoger el área de estudio o la consulta de calificaciones
@@ -42,6 +45,11 @@ def menu(): # Función menú, donde el usuario podrá escoger el área de estudi
         f = open('register.txt', 'w')
         f.write(' '.join(areasValores))
         f.close()
+
+        #Crear el archivo de texto con las preguntas incorrectas
+
+        f = io.open('Preguntas Incorrectas.txt', mode = 'w', encoding = 'utf-8')
+        f.write('\n\n'.join(pregIncorrecta))
 
     else:
         print('Opción inválida')
@@ -103,6 +111,7 @@ def examenPrincipal(area):
                     # Si no, no añado nada a los puntos y añado una sentencia para informar al usuario que está mal
                 else:
                     puntos.append(f'Pregunta {i+1}: Incorrecta')
+                    pregIncorrecta.append(selecPregun[i][0])
 
             except:
                 pass
