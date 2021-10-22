@@ -14,12 +14,12 @@ pregIncorrecta = []
 
 def menu(): # Función menú, donde el usuario podrá escoger el área de estudio o la consulta de calificaciones
 
-    print("Práctica Examen Pisa")
+    print("Práctica Examen Pisa\n")
     print("1. Practicar Álgebra")
     print("2. Practicar Geometría")
     print("3. Practicar Estadística")
     print("4. Ver resultados")
-    print("5. Salir")
+    print("5. Salir\n")
 
     opcion = input('Ingrese una opción: ')
 
@@ -76,7 +76,7 @@ def examenPrincipal(area):
     for i in range(4): # Itero para 
         respsRan = sample(selecPregun[i][1:],4) # Hago random el orden de las respuestas 
 
-        print(f'{i+1}) {selecPregun[i][0]}') # Muestro la pregunta y la numero
+        print(f'{i+1}) {selecPregun[i][0]}\n') # Muestro la pregunta y la numero
         
         for j in range(4): # En este ciclo, muestro las preguntas con las letras correspondientes
             alph = 'abcd'
@@ -122,22 +122,23 @@ def examenPrincipal(area):
                 print('Respuesta no válida')
 
     print('\n'.join(puntos)) # Le muestro al usuario cuáles respuestas tuvo bien y cuáles mal
+    print()
 
     menu()
 
 def graficar():
 
     # Esta función se encarga tanto de graficar los datos almacenados en el archivo de texto, como los actuales.
-    
-    f = open('register.txt', 'r')
+    try:
+        f = open('register.txt', 'r')
+        valoresAnteriores = f.read().split(' ') # Obtención de los datos apartir del archivo de texto
+        valoresAnteriores = [int(i) for i in valoresAnteriores]
+        f.close()
+
+    except:
+        valoresAnteriores = [0, 0, 0]
 
     print(areas)
-
-    valoresAnteriores = f.read().split(' ') # Obtención de los datos apartir del archivo de texto
-    valoresAnteriores = [int(i) for i in valoresAnteriores]
-
-    f.close()
-
     areasLlaves = areas.keys()
     areasValores = [areas[i] for i in areasLlaves] # Obtención de datos actuales
 
@@ -146,10 +147,8 @@ def graficar():
     fig.set_size_inches(13, 5)
     ax1.bar(areasLlaves,valoresAnteriores)
     ax2.bar(areasLlaves,areasValores)
-    ax1.set(xlabel = 'Área', ylabel = 'Puntaje (de 4)')
-    ax2.set(xlabel = 'Área', ylabel = 'Puntaje (de 4)')
-    ax1.set_title('Intento Anterior')
-    ax2.set_title('Intento Actual')
+    ax1.set(xlabel = 'Área', ylabel = 'Puntaje (de 4)', ylim = [0, 4], title = 'Intento Anterior')
+    ax2.set(xlabel = 'Área', ylabel = 'Puntaje (de 4)', ylim = [0, 4], title = 'Intento Actual')
     fig.show()
 
     menu()
